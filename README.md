@@ -1,2 +1,6 @@
 # MISC
-Include the assignment about exercising git/github/markdown
+
+
+# Home Page
+
+Link to: [Homework.md](./Homework.md)
