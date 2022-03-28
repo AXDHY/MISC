@@ -12,11 +12,9 @@
 
 ## git & github
 
+![img_net](https://tatsuno-system.co.jp/wp-content/uploads/2020/06/git-command.png)
+
 ![img_local](res/github-logo.png)
-
-![img_net](res/github-logo-16484377108032.png)
-
-
 
 ## Markdown
 
