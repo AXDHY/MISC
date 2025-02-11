@@ -387,6 +387,56 @@ MSYS2 内部提供了四个不同的 Shell 环境，每个环境的用途不同�
 
 
 
+**安装相关**
+
+1. 使用安装包安装通常直接安装成功,但是在某些具有安全软件的设备上,可能会出现问题
+
+> 使用pacman安装软件时出现`// todo`
+
+```bash
+$ pacman-key --init
+gpg: starting migration from earlier GnuPG versions
+gpg: error running '/usr/bin/gpg-agent': exit status 2
+gpg: failed to start gpg-agent '/usr/bin/gpg-agent': General error
+gpg: can't connect to the gpg-agent: General error
+gpg: error: GnuPG agent unusable. Please check that a GnuPG agent can be started.
+gpg: migration aborted
+==> Generating pacman master key. This may take some time.
+gpg: starting migration from earlier GnuPG versions
+gpg: error running '/usr/bin/gpg-agent': exit status 2
+gpg: failed to start gpg-agent '/usr/bin/gpg-agent': General error
+gpg: can't connect to the gpg-agent: General error
+gpg: error: GnuPG agent unusable. Please check that a GnuPG agent can be started.
+gpg: migration aborted
+gpg: Generating pacman keyring master key...
+gpg: error running '/usr/bin/gpg-agent': exit status 2
+gpg: failed to start gpg-agent '/usr/bin/gpg-agent': General error
+gpg: can't connect to the gpg-agent: General error
+gpg: agent_genkey failed: No agent running
+gpg: key generation failed: No agent running
+gpg: Done
+==> Updating trust database...
+gpg: no need for a trustdb check
+```
+
+> GnuPG agent 不能正常工作.
+
+> 解决方案: 禁用 GPG 验证
+> 在某些情况下，如果你只需要进行安装而不关心密钥验证，可以临时禁用 pacman 的 GPG 验证。注意，这会降低系统安全性，不推荐长时间使用此方法：
+>
+> 编辑 /etc/pacman.conf 文件
+>
+> 在文件中找到并对以下配置进行注释切换：
+>
+> ```bash
+> # By default, pacman accepts packages signed by keys that its local keyring
+> # trusts (see pacman-key and its man page), as well as unsigned packages.
+> SigLevel = Never
+> # SigLevel    = Required
+> ```
+>
+> 这样可以暂时绕过 GPG 验证，但这仅适用于紧急情况，正常情况下建议使用 GPG 密钥验证。
+
 
 
 
