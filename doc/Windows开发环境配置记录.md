@@ -607,22 +607,96 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
 
 
 
+## 常用软件
+
+
+
+### AI软件
+
+
+
+#### Stable Diffusion
+
+> Stable Diffusion是2022年发布的文本到图像的潜在扩散大模型，由CompVis、Stability AI和LAION研发.
+> 目前广泛应用于文生图等图片生成应用.
+
+**安装方式**
+
+1. 下载 [AUTOMATIC1111/stable-diffusion-webui: Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+2. 运行 `webui-user.bat`即可,首次运行会自动部署venv环境以及下载SD模型
+
+**常见问题**
+
+- `Downloading: "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors" to D:\__WorkSpace__\stable-diffusion-webui\models\Stable-diffusion\v1-5-pruned-emaonly.safetensors`
+
+  解决方案: 下载大模型的过程中网络异常中断，可以考虑使用有线网络或者使用国内镜像站[HF-Mirror](https://hf-mirror.com/)
+
+- `no module 'xformers'. Processing without...`
+
+  > **xformers** 是一个库，旨在为基于 **注意力机制** 的模型提供更高效的实现，尤其是用于训练和推理时，它能够减少内存占用并提高计算速度。**Stable Diffusion** 是一个扩散模型，但它也使用了 **自注意力** 和类似 **Transformer** 的机制，所以启用 **xformers** 可以提高生成速度.
+
+  解决方案
+
+  1. 在对应python环境下安装`xformers`库, 注意不是`xformer`
+
+  2. 修改`webui.bat`
+
+     ```bat
+     :launch
+     %PYTHON% launch.py --xformers %*
+     ```
+
+     增加 --xformers 参数, 接入xformers库.
+
+**其他配置**
+
+- 在`webui-user.bat`中可以配置Python/git等应用程序的目录.
+
+
+
+
+
+
+
 ## 网络问题
 
 
 
-**开启VPN后，UWP应用无法联网**
+### VPN
 
-> UWP应用程序在设计时具有一定的网络访问限制，尤其在回环网络方面，默认情况下不能直接回环网络(localhost), 这是为了增强安全性和防止恶意应用程序利用本地网络进行攻击.
->
-> 如果开启VPN后,所有网络流量会通过VPN通道,进而影响到UWP应用访问网络.
+**常见问题**
 
-在常用的VPN软件中,有UWP应用相关的网络设置
+- 开启VPN后，UWP应用无法联网
 
-![image-20250204220021745](res/Windows%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/image-20250204220021745.png)
+  > UWP应用程序在设计时具有一定的网络访问限制，尤其在回环网络方面，默认情况下不能直接回环网络(localhost), 这是为了增强安全性和防止恶意应用程序利用本地网络进行攻击.
+  >
+  > 如果开启VPN后,所有网络流量会通过VPN通道,进而影响到UWP应用访问网络.
 
-还可以通过`Fiddler Classic`软件的`WinConfig`功能设置.
-点击后都将打开`AppContainer Loopback Exemption Utility`工具,勾选UWP应用解除对它的限制.
+  解决方案: 在常用的VPN软件中,有UWP应用相关的网络设置
+
+  ![image-20250204220021745](res/Windows%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/image-20250204220021745.png)
+
+  还可以通过`Fiddler Classic`软件的`WinConfig`功能设置.
+  点击后都将打开`AppContainer Loopback Exemption Utility`工具,勾选UWP应用解除对它的限制.
+  
+- 部分域名或地址错误走了VPN代理,导致无法访问
+
+  解决方案: 在设置→系统代理→系统代理绕过的域名/IP网段进行设置
+
+  ```yaml
+  bypass:
+    - localhost
+    - 127.*
+    - 10.*
+    - 172.16.*
+    ...
+    - 192.168.*
+    - <local>
+    - DOMAIN-SUFFIX, example.com # 指定后缀结尾的所有域名
+    - DOMAIN-SUFFIX, mydomain.com
+    - DOMAIN-KEYWORD, local # 表示包含关键字的所有域名
+    - DOMAIN, *.example.net # 支持*通配符,等效于DOMAIN-SUFFIX
+  ```
 
 
 
