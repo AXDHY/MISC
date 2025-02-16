@@ -444,6 +444,47 @@ gpg: no need for a trustdb check
 
 
 
+### Emacs
+
+**安装方式**
+
+- 先安装MSYS2
+
+- 然后在MinGW64环境下安装Emacs
+  ```bash
+  pacman -Syu
+  pacman -S mingw-w64-x86_64-emacs
+  ```
+
+**常用配置**
+
+- **Spacemacs**
+
+  - 安装方式
+
+    1. 复制配置
+       ```bash
+       git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+       ```
+
+    2. 在MSYS2 MinGW64环境下输入`emacs`启动.
+
+    3. 输入`M-x load-file RET C:/Users/axdhy/.emacs.d/init.el RET` 首次加载配置,选择加载的配置项,并进行插件安装.
+
+    4. 创建快捷方式,修改快捷方式的目标为`D:\Toolkits\Envs\MSYS2\mingw64\bin\emacs.exe --load "C:\Users\axdhy\.emacs.d\init.el"`
+
+       > 通过这种方式自动加载配置文件而不用手动输入.
+
+  > 目前Spacemacs在Windows环境下直接安装有问题,由于Windows环境下的一些工具命令和Linux不同,目前Spacemacs没有进行很好地适配,导致在插件安装的过程中会报错,需要反复安装多次才能进入页面,而且插件的功能是否正常仍需进一步验证.
+  >
+  > [全新安装 Spacemacs 时报告错误 ·问题 #14761 ·SYL20BNR/太空 MACS](https://github.com/syl20bnr/spacemacs/issues/14761)
+  >
+  > 目前Emacs用户推荐的windows平台对于Spacemacs的使用方式都是在WSL环境使用,没有见到有效的原生的方式.
+  >
+  > > 作为Emacs的初学者,目前暂不能给出完美的解决方案,但在学习的过程中,我会尝试解决这一问题.我并不认为使用Spacemacs就必须要先开启WSL这种方式是简便的.
+
+
+
 ### Visual Studio Code
 
 
