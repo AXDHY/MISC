@@ -464,24 +464,33 @@ gpg: no need for a trustdb check
 
     1. 复制配置
        ```bash
-       git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+       git clone https://github.com/syl20bnr/spacemacs $env:APPDATA/.emacs.d
        ```
 
-    2. 在MSYS2 MinGW64环境下输入`emacs`启动.
+       > 注意`$env:APPDATA`目录通常为`C:\Users\axdhy\AppData\Roaming`.Windows的emacs的环境配置在此目录下.注意不同于Linux,emacs在Linux的默认环境配置在`$HOME/.emacs.d`目录下,但是对于windows来说,`$HOME`不同于`$env:APPDATA`,注意区分.
 
-    3. 输入`M-x load-file RET C:/Users/axdhy/.emacs.d/init.el RET` 首次加载配置,选择加载的配置项,并进行插件安装.
-
-    4. 创建快捷方式,修改快捷方式的目标为`D:\Toolkits\Envs\MSYS2\mingw64\bin\emacs.exe --load "C:\Users\axdhy\.emacs.d\init.el"`
-
-       > 通过这种方式自动加载配置文件而不用手动输入.
-
-  > 目前Spacemacs在Windows环境下直接安装有问题,由于Windows环境下的一些工具命令和Linux不同,目前Spacemacs没有进行很好地适配,导致在插件安装的过程中会报错,需要反复安装多次才能进入页面,而且插件的功能是否正常仍需进一步验证.
-  >
-  > [全新安装 Spacemacs 时报告错误 ·问题 #14761 ·SYL20BNR/太空 MACS](https://github.com/syl20bnr/spacemacs/issues/14761)
-  >
-  > 目前Emacs用户推荐的windows平台对于Spacemacs的使用方式都是在WSL环境使用,没有见到有效的原生的方式.
-  >
-  > > 作为Emacs的初学者,目前暂不能给出完美的解决方案,但在学习的过程中,我会尝试解决这一问题.我并不认为使用Spacemacs就必须要先开启WSL这种方式是简便的.
+    2. 在MSYS2 MinGW64环境的bin目录下找到`emacs`应用程序,双击启动,也可以创建快捷方式.
+       首次启动要选择操作方式(vim/emacs)以及环境配置(默认/精简)
+    
+    3. 然后直接关闭,修改`.spacemacs`文件,更换源.
+       ```lisp
+       (defun dotspacemacs/user-init ()
+         "Initialization for user code:
+       This function is called immediately after `dotspacemacs/init', before layer
+       configuration.
+       It is mostly for variables that should be set before packages are loaded.
+       If you are unsure, try setting them in `dotspacemacs/user-config' first."
+         (setq configuration-layer--elpa-archives
+         '(("melpa-cn" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+           ("org-cn"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+           ("gnu-cn"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+         )
+       ```
+    
+    4. 重新运行emacs应用程序,完成后续的安装.
+    
+       > 如果不更换源,某些文件下载失败将导致插件安装失败.
+  
 
 
 
@@ -750,4 +759,5 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
 3. [oh-my-posh3及oh-my-zsh提示prompt出现乱码的原因及使用Nerd字体的解决方法_oh-my-posh 乱码-CSDN博客](https://blog.csdn.net/yihuajack/article/details/111405007)
 4. [Qt安装时很慢且经常卡住解决办法_qttabbar安装一直不动-CSDN博客](https://blog.csdn.net/qq_62933419/article/details/136964512)
 5. [开启http代理或配置pac后导致win10 MICROSOFT STORE无法联网 · Issue #1083 · 2dust/v2rayN](https://github.com/2dust/v2rayN/issues/1083)
-
+6. [syl20bnr/spacemacs: A community-driven Emacs distribution - The best editor is neither Emacs nor Vim, it's Emacs *and* Vim!](https://github.com/syl20bnr/spacemacs)
+7. [elpa | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/elpa/)
