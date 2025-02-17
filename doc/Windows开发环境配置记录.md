@@ -81,11 +81,17 @@ $PSVersionTable.PSVersion
 
 ### 命令对比
 
-|       | CMD                       | Powershell                                              |
-| ----- | ------------------------- | ------------------------------------------------------- |
-| where | ✅用于查找可执行文件的位置 | ❌等价命令`Get-Command`<br />where指向`Where-Object`命令 |
-|       |                           |                                                         |
-|       |                           |                                                         |
+|                      | CMD    | Powershell                                           |
+| -------------------- | ------ | ---------------------------------------------------- |
+| 查找可执行文件的位置 | where  | `Get-Command`<br />而where指向的是`Where-Object`命令 |
+| 创建符号链接         | mklink | `New-Item -ItemType SymbolicLink`                    |
+|                      |        |                                                      |
+
+> 举例
+> ```powershell
+> cmd /c mklink /D "C:\Path\to\link" "C:\Path\to\target"
+> New-Item -ItemType SymbolicLink -Path "C:\Path\to\link" -Target "C:\Path\to\target"
+> ```
 
 
 
@@ -524,7 +530,6 @@ gpg: no need for a trustdb check
 ### 设置
 
 - security.workspace.trust: 是否在VSCode内启用工作区信任.关闭减少弹窗
-- 
 
 
 
@@ -543,27 +548,38 @@ gpg: no need for a trustdb check
 
 ### Visual Studio
 
-**番茄助手**
 
-> 安装流程
->
-> 1. 确保旧版番茄助手插件完全卸载
->
-> 2. 关闭VS&重启电脑,安装`VA_X_Setupxxxx_0.exe`
->
-> 3. 在`%USERPROFILE%\AppData\Local\Microsoft\VisualStudio\17.0_e5a362b9`(VS2022,其他版本类似)等路径下找到`VA_X.dll`,重命名为`VA_X.dll.bak`(用于意外被迫还原)
->
-> 4. ```powershell
->    "???\2022\Community\Common7\IDE\devenv.exe" /safemode
->    ```
->
->    以安全模式打开VS2022，然后关闭VS2022(不关闭的话点开扩展发现没有启用选项)
->
-> 5. 重新打开VS2022，在工具栏打开“扩展→管理扩展”，在已安装中启用VA，再次重启VS2022，即可安装成功
->
-> > 可能有报错 "未能正确加载"VaMenuPakage"包
-> >
-> > ![image-20241119012129457](res/Windows%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/image-20241119012129457.png)
+
+**插件安装**
+
+- **番茄助手(VAssistX)**
+
+  **安装流程**
+  
+  1. 确保旧版番茄助手插件完全卸载
+  
+  2. 关闭VS&重启电脑,安装`VA_X_Setupxxxx_0.exe`
+  
+  3. 在`%USERPROFILE%\AppData\Local\Microsoft\VisualStudio\17.0_e5a362b9`(VS2022,其他版本类似)等路径下找到`VA_X64.dll`,重命名为`VA_X64.dll.bak`(用于意外被迫还原)
+  
+  4. 将`VA_X64.dll`和`PiaoYun64.dll`复制到该目录下.
+  
+  5. ```powershell
+     "???\2022\Community\Common7\IDE\devenv.exe" /safemode
+     ```
+  
+     以安全模式打开VS2022，然后关闭VS2022(不关闭的话点开扩展发现没有启用选项)
+  
+  6. 重新打开VS2022，在工具栏打开“扩展→管理扩展”，在已安装中启用VA，再次重启VS2022，即可安装成功
+  
+  > 安装过程中可能有报错 "未能正确加载"VaMenuPakage"包或其他，忽略继续尝试。
+  >
+  > ![image-20241119012129457](res/Windows%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/image-20241119012129457.png)
+
+- **QT插件(QT VS Tools)**
+  - 首次根据要求要配置QT编译器的路径,也就是要求安装QT环境到本机,而QT环境通常位于QT安装目录下,找到对应qmake或qpath文件选择即可.
+  - **常见问题**
+    - .ui文件打开后报错: 扩展→QT VS Tools→Options→Qt→General→Qt Designer的`Run in detached window`改成`False`即可.
 
 
 
@@ -752,6 +768,45 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
 
 
 
+## 常用操作
+
+
+
+### 磁盘清理
+
+1. 使用**符号链接**将C盘配置映射到其他盘, 减少C盘空间占用.
+   可以将一些配置文件或安装目录转移,并且最大程度上不影响软件的功能使用.
+
+   ```bat
+   # Docker的安装位置：
+   #    C:\Program Files\Docker
+   #    C:\ProgramData\Docker
+   #    C:\Users\_你的用户名\AppData\Local\Docker
+   #    C:\Users\_你的用户名\AppData\Roaming\Docker
+   
+   mklink /j "C:\Program Files\Docker" "自定义的位置"
+   mklink /j "C:\ProgramData\Docker" "自定义的位置"
+   mklink /j "C:\Users\_你的用户名\AppData\Local\Docker" "自定义的位置"
+   mklink /j "C:\Users\_你的用户名\AppData\Roaming\Docker" "自定义的位置"
+   ```
+
+   > 笔者 符号链接 记录
+   >
+   > ```powershell
+   > New-Item -ItemType SymbolicLink -Path “C:\Users\axdhy\AppData\Roaming\.emacs.d” -Target “D:\__WorkSpace__\Config\emacs\.emacs.d”
+   > New-Item -ItemType SymbolicLink -Path “C:\Users\axdhy\AppData\Roaming\.spacemacs” -Target “D:\__WorkSpace__\Config\emacs\.spacemacs”
+   > New-Item -ItemType SymbolicLink -Path “C:\Users\axdhy\AppData\Roaming\.spacemacs.env” -Target “D:\__WorkSpace__\Config\emacs\.spacemacs.env”
+   > ```
+   >
+   > 常见流程
+   >
+   > 1. 先创建或先移动完目标路径或文件,确保目标路径存在,源路径不存在.
+   > 2. 然后再调用上述语句构建符号链接,将在源路径生成对应符号链接.
+
+   
+
+
+
 ## 参考资料
 
 1. [power shell 7 autosuggestion 补全设置_powershell 自动补全-CSDN博客](https://blog.csdn.net/TheOneLeaf/article/details/142721318)
@@ -761,3 +816,4 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
 5. [开启http代理或配置pac后导致win10 MICROSOFT STORE无法联网 · Issue #1083 · 2dust/v2rayN](https://github.com/2dust/v2rayN/issues/1083)
 6. [syl20bnr/spacemacs: A community-driven Emacs distribution - The best editor is neither Emacs nor Vim, it's Emacs *and* Vim!](https://github.com/syl20bnr/spacemacs)
 7. [elpa | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/elpa/)
+8. [VS2022安装VisualAssistX番茄助手 - 知乎](https://zhuanlan.zhihu.com/p/661815368)

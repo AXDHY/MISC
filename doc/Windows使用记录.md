@@ -51,20 +51,6 @@ mklink /j "默认的位置" "自定义的位置"
 
 - 可用于Docker的安装目录转移
 
-  ```cmd
-  # Docker的安装位置：
-  #    C:\Program Files\Docker
-  #    C:\ProgramData\Docker
-  #    C:\Users\_你的用户名\AppData\Local\Docker
-  #    C:\Users\_你的用户名\AppData\Roaming\Docker
-  
-  mklink /j "C:\Program Files\Docker" "自定义的位置"
-  mklink /j "C:\ProgramData\Docker" "自定义的位置"
-  mklink /j "C:\Users\_你的用户名\AppData\Local\Docker" "自定义的位置"
-  mklink /j "C:\Users\_你的用户名\AppData\Roaming\Docker" "自定义的位置"
-  ```
-  
-  - 注意要先将2~6行已有的文件夹(默认的位置)删掉,是要在该目录下直接创建文件夹的跳转链接,与同名文件夹是冲突的.
 
 > 本机mklink记录
 >
@@ -72,7 +58,6 @@ mklink /j "默认的位置" "自定义的位置"
 > mklink /j "C:\Users\axdhy\.cursor" "D:\__Programming_Software__\Text_Editor\Visual_Studio_Code\Cursor\__Extra_Documents\Data_From_C\.cursor"
 > ```
 >
-> 
 
 
 
