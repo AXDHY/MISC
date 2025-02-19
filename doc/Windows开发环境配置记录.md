@@ -117,7 +117,16 @@ error: There was a problem with the editor '"..." --wait'.
 > 
 > # 还原为默认编辑器
 > git config --global --unset core.editor
+> 
+> # 网络受限，设置VPN代理
+> git config --global http.proxy http://127.0.0.1:7890 # VPN常用端口号
+> git config --global https.proxy http://127.0.0.1:7890
+> # 取消代理
+> git config --global --unset http.proxy
+> git config --global --unset https.proxy
 > ```
+>
+> 这些配置都保存在`$HOME/.gitconfig`
 
 
 
@@ -758,10 +767,10 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
     ...
     - 192.168.*
     - <local>
+    - DOMAIN, *.example.net # 支持*通配符,等效于DOMAIN-SUFFIX,clash支持该方式
     - DOMAIN-SUFFIX, example.com # 指定后缀结尾的所有域名
     - DOMAIN-SUFFIX, mydomain.com
     - DOMAIN-KEYWORD, local # 表示包含关键字的所有域名
-    - DOMAIN, *.example.net # 支持*通配符,等效于DOMAIN-SUFFIX
   ```
 
 
@@ -817,3 +826,4 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Toolkits\OCR\Tesseract-OCR\tesserac
 6. [syl20bnr/spacemacs: A community-driven Emacs distribution - The best editor is neither Emacs nor Vim, it's Emacs *and* Vim!](https://github.com/syl20bnr/spacemacs)
 7. [elpa | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/elpa/)
 8. [VS2022安装VisualAssistX番茄助手 - 知乎](https://zhuanlan.zhihu.com/p/661815368)
+9. [Rules 规则 | Clash 知识库](https://clash.wiki/configuration/rules.html)
